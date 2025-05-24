@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!-- DIFFERENTIAL SWERVE WHEEL MACRO -->
+    <xacro:macro name="swerve_wheel" params="name radius rotater_material spinner_material">
+
+        <xacro:property name="wheel_radius" value="${radius}"/>
+    
+        <!-- Uncomment this and its joint to rotater to find out the front face of the wheel -->
+
+        <!-- <link name="${name}_frontmark_link">
+            <visual>
+                <geometry>
+                    <box size="${wheel_radius * 0.5} ${wheel_radius * 1.5} ${wheel_radius * 0.5}"/>
+                </geometry>
+                <material name="${rotater_material}"/>
+            </visual>
+        </link> -->
+
+        <link name="${name}_rotater_link">
+            <visual>
+                <geometry>
+                    <cylinder radius="${wheel_radius * 1.25}" length="${wheel_radius * 1.1}"/>
+                </geometry>
+                <material name="${rotater_material}"/>
+            </visual>
+
+            <collision>
+                <geometry>
+                    <cylinder radius="${wheel_radius * 1.25}" length="${wheel_radius * 1.1}"/>
+                </geometry>
+            </collision>
+
+            <xacro:inertial_cylinder mass="${wheel_radius * 3}" length="${wheel_radius * 1.1}" radius="${wheel_radius * 1.25}">
+                <origin/>
+            </xacro:inertial_cylinder>
+        </link>
+
+        <link name="${name}_spinner_link">
+            <visual>
+                <geometry>
+                    <cylinder radius="${wheel_radius * 1}" length="${wheel_radius * 1}"/>
+                </geometry>
+                <material name="${spinner_material}"/>
+            </visual>
+
+            <collision>
+                <geometry>
+                    <cylinder radius="${wheel_radius * 1}" length="${wheel_radius * 1}"/>
+                </geometry>
+            </collision>
+
+            <xacro:inertial_cylinder mass="${wheel_radius * 5}" length="${wheel_radius * 1}" radius="${wheel_radius * 1}">
+                <origin/>
+            </xacro:inertial_cylinder>
+        </link>
+
+        <joint name="${name}_swerve_joint" type="continuous">
+            <origin xyz="0 0 ${wheel_radius * -0.55}" rpy="${pi/2} 0 0"/>
+            <parent link="${name}_rotater_link"/>
+            <child link="${name}_spinner_link"/>
+            <axis xyz="0 0 1"/>
+        </joint>
+
+        <!-- <joint name="${name}_frontmark_joint" type="fixed">
+            <origin xyz="${wheel_radius * -1.25} 0 0"/>
+            <parent link="${name}_rotater_link"/>
+            <child link="${name}_frontmark_link"/>
+        </joint> -->
+    </xacro:macro>
+
+</robot>

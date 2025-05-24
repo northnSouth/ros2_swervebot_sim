@@ -1,0 +1,196 @@
+<?xml version="1.0"?>
+<robot name="swervebot_diff" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    
+    <xacro:include filename="inertial_macros.xacro"/>
+
+    <!-- MATERIALS -->
+    
+    <material name="grey">
+      <color rgba="0.35 0.35 0.35 1"/>
+    </material>
+
+    <material name="silver">
+      <color rgba="0.86 0.86 0.86 1"/>
+    </material>
+
+    <!-- BASE LINK/FRAME -->
+
+    <xacro:property name="frame_width" value="0.8"/>
+    <xacro:property name="frame_length" value="0.8"/>
+    <xacro:property name="frame_depth" value="0.06"/>
+
+    <link name="base_link">
+        <visual>
+            <geometry>
+                <box size="${frame_length} ${frame_width} ${frame_depth}"/>
+            </geometry>
+            <material name="silver"/>
+        </visual>
+
+        <collision>
+            <geometry>
+                <box size="${frame_length} ${frame_width} ${frame_depth}"/>
+            </geometry>
+        </collision>
+
+        <xacro:inertial_box mass="1.5" x="${frame_length}" y="${frame_width}" z="${frame_depth}">
+            <origin/>
+        </xacro:inertial_box>
+    </link>
+
+    <!-- BUMPERS -->
+
+    <xacro:property name="bumper_thick_x" value="${frame_length / 10}"/>
+    <xacro:property name="bumper_length_x" value="${frame_width / 1.8}"/>
+    <xacro:property name="bumper_thick_y" value="${frame_length / 1.8}"/>
+    <xacro:property name="bumper_length_y" value="${frame_width / 10}"/>
+    <xacro:property name="bumper_mass" value="0.5"/>
+
+    <link name="bumper_front_link">
+        <visual>
+            <geometry>
+                <box size="${bumper_thick_x} ${bumper_length_x} ${frame_depth}"/>
+            </geometry>
+            <material name="silver"/>
+        </visual>
+
+        <collision>
+            <geometry>
+                <box size="${bumper_thick_x} ${bumper_length_x} ${frame_depth * 1.2}"/>
+            </geometry>
+        </collision>
+
+        <xacro:inertial_box mass="${bumper_mass}" x="${bumper_thick_x}" y="${bumper_length_x}" z="${frame_depth}">
+            <origin/>
+        </xacro:inertial_box>
+    </link>
+
+    <link name="bumper_left_link">
+        <visual>
+            <geometry>
+                <box size="${bumper_thick_y} ${bumper_length_y} ${frame_depth}"/>
+            </geometry>
+            <material name="silver"/>
+        </visual>
+
+        <collision>
+            <geometry>
+                <box size="${bumper_thick_y} ${bumper_length_y} ${frame_depth}"/>
+            </geometry>
+        </collision>
+
+        <xacro:inertial_box mass="${bumper_mass}" x="${bumper_thick_y}" y="${bumper_length_y}" z="${frame_depth}">
+            <origin/>
+        </xacro:inertial_box>
+    </link>
+
+    <link name="bumper_right_link">
+        <visual>
+            <geometry>
+                <box size="${bumper_thick_y} ${bumper_length_y} ${frame_depth}"/>
+            </geometry>
+            <material name="silver"/>
+        </visual>
+
+        <collision>
+            <geometry>
+                <box size="${bumper_thick_y} ${bumper_length_y} ${frame_depth}"/>
+            </geometry>
+        </collision>
+
+        <xacro:inertial_box mass="${bumper_mass}" x="${bumper_thick_y}" y="${bumper_length_y}" z="${frame_depth}">
+            <origin/>
+        </xacro:inertial_box>
+    </link>
+
+    <link name="bumper_rear_link">
+        <visual>
+            <geometry>
+                <box size="${bumper_thick_x} ${bumper_length_x} ${frame_depth}"/>
+            </geometry>
+            <material name="silver"/>
+        </visual>
+
+        <collision>
+            <geometry>
+                <box size="${bumper_thick_x} ${bumper_length_x} ${frame_depth}"/>
+            </geometry>
+        </collision>
+
+        <xacro:inertial_box mass="${bumper_mass}" x="${bumper_thick_x}" y="${bumper_length_x}" z="${frame_depth}">
+            <origin/>
+        </xacro:inertial_box>
+    </link>
+
+    <xacro:include filename="swervebot_wheel.xacro"/>
+
+    <xacro:property name="set_wheel_radius" value="0.05"/>
+
+    <xacro:swerve_wheel name="front_left" radius="${set_wheel_radius}" rotater_material="silver" spinner_material="grey"/>
+    <xacro:swerve_wheel name="front_right" radius="${set_wheel_radius}" rotater_material="silver" spinner_material="grey"/>
+    <xacro:swerve_wheel name="rear_left" radius="${set_wheel_radius}" rotater_material="silver" spinner_material="grey"/>
+    <xacro:swerve_wheel name="rear_right" radius="${set_wheel_radius}" rotater_material="silver" spinner_material="grey"/>
+
+    <!-- JOINTS -->
+
+    <joint name="front_left_wheel_joint" type="continuous">
+        <origin xyz="${frame_length * 0.45 - set_wheel_radius * 1.25} ${frame_width * 0.45 - set_wheel_radius * 1.25} ${-0.55 * set_wheel_radius - frame_depth / 2}"
+                rpy="0 0 ${pi}"
+        />
+        <parent link="base_link"/>
+        <child link="front_left_rotater_link"/>
+        <axis xyz="0 0 1"/>
+    </joint>
+
+    <joint name="front_right_wheel_joint" type="continuous">
+        <origin xyz="${frame_length * 0.45 - set_wheel_radius * 1.25} -${frame_width * 0.45 - set_wheel_radius * 1.25} ${-0.55 * set_wheel_radius - frame_depth / 2}"
+                rpy="0 0 ${pi}"
+        />
+        <parent link="base_link"/>
+        <child link="front_right_rotater_link"/>
+        <axis xyz="0 0 1"/>
+    </joint>
+
+    <joint name="rear_left_wheel_joint" type="continuous">
+        <origin xyz="-${frame_length * 0.45 - set_wheel_radius * 1.25} -${frame_width * 0.45 - set_wheel_radius * 1.25} ${-0.55 * set_wheel_radius - frame_depth / 2}"
+                rpy="0 0 ${pi}"
+        />
+        <parent link="base_link"/>
+        <child link="rear_left_rotater_link"/>
+        <axis xyz="0 0 1"/>
+    </joint>
+
+    <joint name="rear_right_wheel_joint" type="continuous">
+        <origin xyz="-${frame_length * 0.45 - set_wheel_radius * 1.25} ${frame_width * 0.45 - set_wheel_radius * 1.25} ${-0.55 * set_wheel_radius - frame_depth / 2}"
+                rpy="0 0 ${pi}"
+        />
+        <parent link="base_link"/>
+        <child link="rear_right_rotater_link"/>
+        <axis xyz="0 0 1"/>
+    </joint>
+
+    <joint name="bumper_front_joint" type="fixed">
+        <origin xyz="${frame_length / 2 - bumper_thick_x / 2} 0 -${frame_depth}"/>
+        <parent link="base_link"/>
+        <child link="bumper_front_link"/>
+    </joint>
+
+    <joint name="bumper_left_joint" type="fixed">
+        <origin xyz="0 ${frame_width / 2 - bumper_length_y / 2} -${frame_depth}"/>
+        <parent link="base_link"/>
+        <child link="bumper_left_link"/>
+    </joint>
+
+    <joint name="bumper_right_joint" type="fixed">
+        <origin xyz="0 -${frame_width / 2 - bumper_length_y / 2} -${frame_depth}"/>
+        <parent link="base_link"/>
+        <child link="bumper_right_link"/>
+    </joint>
+
+    <joint name="bumper_rear_joint" type="fixed">
+        <origin xyz="-${frame_length / 2 - bumper_thick_x / 2} 0 -${frame_depth}"/>
+        <parent link="base_link"/>
+        <child link="bumper_rear_link"/>
+    </joint>
+    
+</robot>
