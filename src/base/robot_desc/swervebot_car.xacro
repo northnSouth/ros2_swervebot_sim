@@ -121,7 +121,7 @@
         </xacro:inertial_box>
     </link>
 
-    <xacro:include filename="swervebot_wheel.xacro"/>>
+    <xacro:include filename="swervebot_wheel.xacro"/>
 
     <xacro:swerve_wheel name="front_left" radius="${set_wheel_radius}" rotater_material="darkgray" spinner_material="black"/>
     <xacro:swerve_wheel name="front_right" radius="${set_wheel_radius}" rotater_material="darkgray" spinner_material="black"/>
