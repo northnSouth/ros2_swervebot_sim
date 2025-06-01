@@ -17,8 +17,18 @@ target_include_directories(swervebot_sim_base PUBLIC
   $<INSTALL_INTERFACE:include/${PROJECT_NAME}>)
 target_compile_features(swervebot_sim_base PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
 
+# Build Executables
 install(TARGETS swervebot_sim_base
   DESTINATION lib/${PROJECT_NAME})
+
+# Build directories
+install(DIRECTORY
+  launch
+  config
+  rviz2
+  robot_desc
+  DESTINATION share/${PROJECT_NAME}/
+)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)

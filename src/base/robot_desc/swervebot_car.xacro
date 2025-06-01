@@ -1,30 +1,21 @@
 <?xml version="1.0"?>
-<robot name="swervebot_diff" xmlns:xacro="http://www.ros.org/wiki/xacro">
-    
-    <xacro:include filename="inertial_macros.xacro"/>
-
-    <!-- MATERIALS -->
-    
-    <material name="grey">
-      <color rgba="0.35 0.35 0.35 1"/>
-    </material>
-
-    <material name="silver">
-      <color rgba="0.86 0.86 0.86 1"/>
-    </material>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
     <!-- BASE LINK/FRAME -->
 
     <xacro:property name="frame_width" value="0.8"/>
     <xacro:property name="frame_length" value="0.8"/>
     <xacro:property name="frame_depth" value="0.06"/>
+    <xacro:property name="set_wheel_radius" value="0.05"/>
+
+    <link name="base_footprint_link"/>
 
     <link name="base_link">
         <visual>
             <geometry>
                 <box size="${frame_length} ${frame_width} ${frame_depth}"/>
             </geometry>
-            <material name="silver"/>
+            <material name="blue"/>
         </visual>
 
         <collision>
@@ -37,6 +28,14 @@
             <origin/>
         </xacro:inertial_box>
     </link>
+
+    <!-- ALERT: This joint is not accurately positioned at the wheel contact to the ground -->
+
+    <joint name="base_footprint_joint" type="fixed">
+        <parent link="base_footprint_link"/>
+        <child link="base_link"/>
+        <origin xyz="0 0 ${frame_depth * 1.5 + set_wheel_radius}"/>
+    </joint>
 
     <!-- BUMPERS -->
 
@@ -51,12 +50,12 @@
             <geometry>
                 <box size="${bumper_thick_x} ${bumper_length_x} ${frame_depth}"/>
             </geometry>
-            <material name="silver"/>
+            <material name="yellow"/>
         </visual>
 
         <collision>
             <geometry>
-                <box size="${bumper_thick_x} ${bumper_length_x} ${frame_depth * 1.2}"/>
+                <box size="${bumper_thick_x} ${bumper_length_x} ${frame_depth}"/>
             </geometry>
         </collision>
 
@@ -122,14 +121,12 @@
         </xacro:inertial_box>
     </link>
 
-    <xacro:include filename="swervebot_wheel.xacro"/>
+    <xacro:include filename="swervebot_wheel.xacro"/>>
 
-    <xacro:property name="set_wheel_radius" value="0.05"/>
-
-    <xacro:swerve_wheel name="front_left" radius="${set_wheel_radius}" rotater_material="silver" spinner_material="grey"/>
-    <xacro:swerve_wheel name="front_right" radius="${set_wheel_radius}" rotater_material="silver" spinner_material="grey"/>
-    <xacro:swerve_wheel name="rear_left" radius="${set_wheel_radius}" rotater_material="silver" spinner_material="grey"/>
-    <xacro:swerve_wheel name="rear_right" radius="${set_wheel_radius}" rotater_material="silver" spinner_material="grey"/>
+    <xacro:swerve_wheel name="front_left" radius="${set_wheel_radius}" rotater_material="darkgray" spinner_material="black"/>
+    <xacro:swerve_wheel name="front_right" radius="${set_wheel_radius}" rotater_material="darkgray" spinner_material="black"/>
+    <xacro:swerve_wheel name="rear_left" radius="${set_wheel_radius}" rotater_material="darkgray" spinner_material="black"/>
+    <xacro:swerve_wheel name="rear_right" radius="${set_wheel_radius}" rotater_material="darkgray" spinner_material="black"/>
 
     <!-- JOINTS -->
 

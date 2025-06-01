@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<robot name="swervebot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    
+    <xacro:include filename="inertial_macros.xacro"/>
+    <xacro:include filename="materials.xacro"/>
+    <xacro:include filename="swervebot_car.xacro"/>
+    <xacro:include filename="gz_ros2_control.xacro"/>
+    
+</robot>
