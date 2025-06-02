@@ -9,34 +9,14 @@ endif()
 
 # Find dependencies
 find_package(ament_cmake REQUIRED)
-# uncomment the following section in order to fill in
-# further dependencies manually.
-# find_package(<dependency> REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(std_msgs REQUIRED)
 
-
-
-add_executable(swervebot_sim_base src/swervebot_sim_base.cpp)
-target_include_directories(swervebot_sim_base PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-  $<INSTALL_INTERFACE:include/${PROJECT_NAME}>)
-target_compile_features(swervebot_sim_base PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
-
-
-
-# Build Executables
-install(TARGETS swervebot_sim_base
-  DESTINATION lib/${PROJECT_NAME})
-
-# Build directories
-install(DIRECTORY
-  launch
-  config
-  rviz2
-  robot_desc
-  DESTINATION share/${PROJECT_NAME}/
+add_executable(test_diffswerve_sim src/test_diffswerve_sim.cpp)
+ament_target_dependencies( test_diffswerve_sim
+  rclcpp
+  std_msgs
 )
-
-
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -49,5 +29,21 @@ if(BUILD_TESTING)
   set(ament_cmake_cpplint_FOUND TRUE)
   ament_lint_auto_find_test_dependencies()
 endif()
+
+
+
+# Build Executables
+install(TARGETS 
+  test_diffswerve_sim
+  DESTINATION lib/${PROJECT_NAME})
+
+# Build directories
+install(DIRECTORY
+  launch
+  config
+  rviz2
+  robot_desc
+  DESTINATION share/${PROJECT_NAME}/
+)
 
 ament_package()
