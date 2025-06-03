@@ -1,21 +1,14 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-    <!-- DIFFERENTIAL SWERVE WHEEL MACRO -->
+    <!--
+        This macro generate two links representing the wheel and differential drive
+        gear mechanism and make a joint out of them.
+     -->
+
     <xacro:macro name="swerve_wheel" params="name radius rotater_material spinner_material">
 
         <xacro:property name="wheel_radius" value="${radius}"/>
-    
-        <!-- Uncomment this and its joint to rotater to find out the front face of the wheel -->
-
-        <!-- <link name="${name}_frontmark_link">
-            <visual>
-                <geometry>
-                    <box size="${wheel_radius * 0.5} ${wheel_radius * 1.5} ${wheel_radius * 0.5}"/>
-                </geometry>
-                <material name="${rotater_material}"/>
-            </visual>
-        </link> -->
 
         <link name="${name}_rotater_link">
             <visual>
@@ -62,12 +55,6 @@
             <axis xyz="0 0 1"/>
         </joint>
 
-        <!-- <joint name="${name}_frontmark_joint" type="fixed">
-            <origin xyz="${wheel_radius * -1.25} 0 0"/>
-            <parent link="${name}_rotater_link"/>
-            <child link="${name}_frontmark_link"/>
-        </joint> -->
-        
     </xacro:macro>
 
 </robot>

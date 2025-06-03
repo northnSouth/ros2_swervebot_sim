@@ -29,7 +29,7 @@
         </xacro:inertial_box>
     </link>
 
-    <!-- ALERT: This joint is not accurately positioned at the wheel contact to the ground -->
+    <!-- WARNING: This joint is not accurately positioned at the wheel contact to the ground -->
 
     <joint name="base_footprint_joint" type="fixed">
         <parent link="base_footprint_link"/>
@@ -37,7 +37,7 @@
         <origin xyz="0 0 ${frame_depth * 1.5 + set_wheel_radius}"/>
     </joint>
 
-    <!-- BUMPERS -->
+    <!-- BUMPER LINKS -->
 
     <xacro:property name="bumper_thick_x" value="${frame_length / 10}"/>
     <xacro:property name="bumper_length_x" value="${frame_width / 1.8}"/>
@@ -120,6 +120,8 @@
             <origin/>
         </xacro:inertial_box>
     </link>
+
+    <!-- GENERATE SWERVE WHEEL LINKS AND JOINTS -->
 
     <xacro:include filename="swervebot_wheel.xacro"/>
 

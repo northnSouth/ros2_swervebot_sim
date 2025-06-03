@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 <robot name="swervebot" xmlns:xacro="http://www.ros.org/wiki/xacro">
     
+    <!-- Master xacro file -->
+
     <xacro:include filename="inertial_macros.xacro"/>
     <xacro:include filename="materials.xacro"/>
     <xacro:include filename="swervebot_car.xacro"/>
