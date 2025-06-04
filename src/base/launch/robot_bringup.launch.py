@@ -95,7 +95,8 @@ def generate_launch_description():
       executable="spawner",
       arguments=
       [
-        "JSB"
+        "JSB",
+        "VEL"
       ]
     )
 
