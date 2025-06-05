@@ -91,13 +91,14 @@ def generate_launch_description():
     )
 
     control_activate = Node(
-      package="controller_manager",
-      executable="spawner",
+      package='controller_manager',
+      executable='spawner',
       arguments=
       [
-        "JSB",
-        "VEL"
-      ]
+        'JSB',
+        'VEL'
+      ],
+      remappings=[('/VEL/commands', '/swerve_vel_control')]
     )
 
     rviz_config_file = os.path.join(
