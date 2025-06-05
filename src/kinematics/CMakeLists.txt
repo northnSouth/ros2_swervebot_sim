@@ -20,10 +20,20 @@ ament_target_dependencies(kinematics_worker
     std_msgs
 )
 
-target_include_directories(kinematics_worker PUBLIC
+add_executable(differential_converter src/differential_converter.cpp)
+ament_target_dependencies(differential_converter
+    rclcpp
+    std_msgs
+)
+
+set(COMMON_INCLUDE_DIRS
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/>
   $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
 )
+
+target_include_directories(kinematics_worker PUBLIC ${COMMON_INCLUDE_DIRS})
+target_include_directories(differential_converter PUBLIC ${COMMON_INCLUDE_DIRS})
+
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -39,6 +49,7 @@ endif()
 
 install(TARGETS
     kinematics_worker
+    differential_converter
     DESTINATION lib/${PROJECT_NAME}
 )
 
