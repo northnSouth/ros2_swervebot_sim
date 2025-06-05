@@ -12,18 +12,21 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
+find_package(ros2_swervebot_sim_msgs REQUIRED)
 
 add_executable(kinematics_worker src/kinematics_worker.cpp)
 ament_target_dependencies(kinematics_worker
     rclcpp
     geometry_msgs
     std_msgs
+    ros2_swervebot_sim_msgs
 )
 
 add_executable(differential_converter src/differential_converter.cpp)
 ament_target_dependencies(differential_converter
     rclcpp
     std_msgs
+    ros2_swervebot_sim_msgs
 )
 
 set(COMMON_INCLUDE_DIRS

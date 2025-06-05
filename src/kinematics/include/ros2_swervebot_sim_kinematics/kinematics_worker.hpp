@@ -11,7 +11,7 @@ public:
     KinematicsWorker();
 
 private:
-    rclcpp::Publisher<Float64MultiArray>::SharedPtr velocity_publisher_;
+    rclcpp::Publisher<DifferentialSwerve>::SharedPtr differential_publisher_;
     rclcpp::Subscription<Twist>::SharedPtr command_listener_;
     rclcpp::TimerBase::SharedPtr kinematics_routine_;
 

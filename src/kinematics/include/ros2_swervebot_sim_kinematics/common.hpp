@@ -9,7 +9,9 @@
 #include "rclcpp/rclcpp.hpp" // IWYU pragma: keep
 
 #include "std_msgs/msg/float64_multi_array.hpp"
+#include "ros2_swervebot_sim_msgs/msg/differential_swerve.hpp"
 
 using Float64MultiArray = std_msgs::msg::Float64MultiArray;
+using DifferentialSwerve = ros2_swervebot_sim_msgs::msg::DifferentialSwerve;
 
 #endif

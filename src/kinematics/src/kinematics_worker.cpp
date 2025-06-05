@@ -3,7 +3,6 @@
 #include <memory>
 #include <functional>
 #include <chrono>
-#include <vector>
 
 using time_ms = std::chrono::milliseconds;
 
@@ -21,7 +20,7 @@ KinematicsWorker::KinematicsWorker()
         "\033[32mStarting Swerve Kinematics Worker\033[0m"
     );
 
-    velocity_publisher_ = this->create_publisher<Float64MultiArray>(
+    differential_publisher_ = this->create_publisher<DifferentialSwerve>(
         SWERVE_CONTROL_TOPIC,
         QOS
     );
@@ -41,19 +40,10 @@ KinematicsWorker::KinematicsWorker()
 }
 
 void KinematicsWorker::kinematicsRoutine_() {
-    // const double x_vel = command_msg_.linear.x;
-    // const double y_vel = command_msg_.linear.y;
-    // const double z_vel = command_msg_.angular.z;
+    DifferentialSwerve diff_vel;
+    diff_vel.front_left.gear_a = 1.0;
 
-    /**
-    * Controller will fail when it receives incorrect array 
-    * length, that is inequal to the number of joints under 
-    * control, in this case 8. Refer to controller config.
-    */
-    Float64MultiArray velocity_msg;
-    velocity_msg.data = std::vector<double>(8, 0.0);
-
-    velocity_publisher_->publish(velocity_msg);
+    differential_publisher_->publish(diff_vel);
 }
 
 int main(int argc, char** argv) {
