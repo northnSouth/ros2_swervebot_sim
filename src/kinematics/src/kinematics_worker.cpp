@@ -1,5 +1,7 @@
 #include "ros2_swervebot_sim_kinematics/kinematics_worker.hpp"
 
+#include <memory>
+#include <functional>
 #include <chrono>
 #include <vector>
 
@@ -8,7 +10,7 @@ using time_ms = std::chrono::milliseconds;
 namespace {
     constexpr const char* NODE_NAME = "swerve_kinematics_worker";
     constexpr const char* CMD_TOPIC = "/cmd_vel";
-    constexpr const char* SWERVE_CONTROL_TOPIC = "/swerve_vel_control";
+    constexpr const char* SWERVE_CONTROL_TOPIC = "/swerve_diff_control";
     constexpr time_ms KINEMATICS_ROUTINE_PERIOD(10);
     const auto QOS = rclcpp::QoS(1);
 }
