@@ -2,7 +2,7 @@
 #define ROS2_SWERVEBOT_SIM_KINEMATICS__COMMON_HPP_
 
 /**
-* The comment is used for readability, clang deduce including rclcpp.hpp
+* The keep pragma is used for readability, clang deduce including rclcpp.hpp
 * as useless and fire a warning, but it's not, because otherwise I had 
 * to include every single headers I need that is included by rclcpp.hpp
 */
