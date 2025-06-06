@@ -11,7 +11,7 @@ private:
     rclcpp::Publisher<Float64MultiArray>::SharedPtr velocity_publisher_;
     rclcpp::Subscription<DifferentialSwerve>::SharedPtr differential_listener_;
 
-    void converterRoutine_(const DifferentialSwerve msg);
+    void converterRoutine_(const DifferentialSwerve& msg);
 };
 
 #endif

@@ -1,7 +1,6 @@
 #include "ros2_swervebot_sim_kinematics/differential_converter.hpp"
 
 #include <memory>
-#include <vector>
 
 namespace {
     constexpr const char* NODE_NAME = "swerve_differential_converter";
@@ -28,20 +27,41 @@ DifferentialConverter::DifferentialConverter()
             this->converterRoutine_(*msg);
         }
     );
-};
+}
 
-void DifferentialConverter::converterRoutine_(const DifferentialSwerve msg) {
-    RCLCPP_INFO(this->get_logger(), 
-        "Got front left: %f", msg.front_left.gear_a
-    );
+void DifferentialConverter::converterRoutine_(const DifferentialSwerve& msg) {
+    auto diffToCoax =  [](double gear_a, double gear_b) 
+        -> std::pair<double, double> 
+    {
+        double rotate;
+        double spin;
 
-    /**
-    * Controller will fail when it receives incorrect array 
-    * length, that is inequal to the number of joints under 
-    * control, in this case 8. Refer to controller config.
-    */
+        rotate = (gear_a + gear_b) / 2.0;
+        spin = (gear_a - gear_b) / 2.0;
+
+        return {rotate, spin};
+    };
+
+    auto [fl_rot, fl_spin] = diffToCoax(
+        msg.front_left.gear_a, msg.front_left.gear_b);
+    auto [fr_rot, fr_spin] = diffToCoax(
+        msg.front_right.gear_a, msg.front_right.gear_b);
+    auto [rl_rot, rl_spin] = diffToCoax(
+        msg.rear_left.gear_a, msg.rear_left.gear_b);
+    auto [rr_rot, rr_spin] = diffToCoax(
+        msg.rear_right.gear_a, msg.rear_right.gear_b);
+
     Float64MultiArray veloc_msg;
-    veloc_msg.data = std::vector<double>(8, 0.0);
+    veloc_msg.data.resize(8);
+
+    veloc_msg.data[0] = fl_rot;
+    veloc_msg.data[1] = fl_spin;
+    veloc_msg.data[2] = fr_rot;
+    veloc_msg.data[3] = fr_spin;
+    veloc_msg.data[4] = rl_rot;
+    veloc_msg.data[5] = rl_spin;
+    veloc_msg.data[6] = rr_rot;
+    veloc_msg.data[7] = rr_spin;
 
     velocity_publisher_->publish(veloc_msg);
 }
